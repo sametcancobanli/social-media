@@ -141,6 +141,8 @@ def post_page():
         cursor.execute(sorgu,(student_id,None,content,0,0))
         mysql.connection.commit()
 
+        
+
         cursor.close()
       
         return redirect(url_for('home_page'))
@@ -167,16 +169,23 @@ def comment_page(comment_key):
         cur.execute(sorgu_4)
         info_4 = cur.fetchall()
 
+        cur.execute("SELECT * FROM post WHERE post_id=%s", [comment_key])
+        temp = cur.fetchone()
+        temp = temp['student_id']
+        
+        cur.execute("SELECT * FROM user_profile WHERE student_id=%s", [temp])
+        temp_2 = cur.fetchone()
+
+        img_blob = temp_2['image_id']
+        image = b64encode(img_blob).decode("utf-8")
+
         cur.execute("SELECT student_id FROM user WHERE mail = %s", [mail_session])
         student_id = cur.fetchone()
         student_id = student_id["student_id"]
 
-        print(info_1)
-
-        return render_template('comment.html',student_id = student_id , id_1 = info_1, id_2 = info_2, id_3 = info_3, id_4 = info_4, session_mail=mail_session)
+        return render_template('comment.html',student_id = student_id , id_1 = info_1, id_2 = info_2, id_3 = info_3, id_4 = info_4, session_mail=mail_session, image=image, obj=img_blob)
     
     return render_template("login.html")
-
 
 def afterreply_page(comment_key_2):
     mysql = current_app.config["mysql"]
@@ -240,7 +249,6 @@ def post_up_page(post_key):
     else:
         return redirect(url_for('fail_page'))
 
-
 def comment_up_page(post_key, comment_num):
     mysql = current_app.config["mysql"]
     if request.method == 'POST':
@@ -270,13 +278,12 @@ def reply_up_page(post_key, comment_num, reply_num):
 
         cursor.execute("UPDATE reply SET r_up_vote = r_up_vote + 1 WHERE comment_id =%s AND reply_id =%s", ([comment_num],[reply_num] ))
         mysql.connection.commit()
-
+    
         cursor.close()
       
-        return redirect(url_for('comment_page', comment_key =post_key))
+        return render_template(url_for('comment_page', comment_key =post_key))
     else:
         return redirect(url_for('fail_page'))
-
 
 def profile_page(user_key):
     mysql = current_app.config["mysql"]
