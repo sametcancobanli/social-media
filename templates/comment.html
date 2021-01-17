@@ -1,0 +1,219 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+<link rel="stylesheet" href="{{ url_for('static', filename='comment.css') }}" />
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+
+<!--Author : Maniruzzaman Akash Email  : manirujjamanakash@gmail.com-->
+
+<!--To Work with icons-->
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+<header>
+    <div class="jumbotron bg-dark text-white">
+        <div class="container">
+            <div class="col-md-6">
+                <h1 class="display-4 font-italic">...</h1>
+                    <p class="lead my-3">...</p>
+                    <p class="lead mb-0">...</p>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div class="main-bg">
+    <div class="container p-3 pt-5">
+        {% for postcur_4 in id_4 %}
+            {% if postcur_4.student_id == id_1['student_id'] %}
+                <div class="card">
+                    <h5 class="card-header">Post</h5>
+                        <div class="card-body">
+                            <h5 class="card-title"></h5>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <img src="https://image.ibb.co/jw55Ex/def_face.jpg" class="img img-rounded img-fluid"/>
+                                            <p class="text-secondary text-center">15 Minutes Ago</p>
+                                    </div>
+                                    
+                                    <div class="col-md-10">
+                                    <a href="/profile/{{postcur_4.student_id}}" style="height: 30px;">
+                                        <strong>{{postcur_4.name}} {{postcur_4.surname}}</strong>
+                                    </a>
+                                    
+                                        <p class="p-3"><b>{{id_1.p_content}}</b></p>
+                                    </div>
+                                    
+                                    <div class="col-md-12">
+                                        <div class="clearfix"></div>
+                                                <p>
+                                                    <form action="/post_up/{{id_1.post_id}}" method="post">
+                                                        <button style="margin-left: 940px;" class="border-0">
+                                                            <a class="float-right btn text-white btn-danger"> <i class="fa fa-heart"></i> Like</a>
+                                                        </button>
+                                                        <a class="float-right btn btn-outline-primary">{{id_1.p_up_vote}}</a>
+                                                    </form>
+                                                    
+                                                </p>
+                                    </div>
+                                </div>
+                        </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+<!----------------------------------------------------------------------------------------------------------------->
+<div class="container pr-5 pl-5 p-5">
+    {% for postcur_2 in id_2 %}
+        {% if postcur_2.post_id == id_1['post_id'] %}
+	        <div class="card mb-3 border border-secondary">
+                {% for postcur_4 in id_4 %}
+                    {% if postcur_4.student_id == postcur_2.student_id %}
+	                    <div class="card-body">
+	                        <div class="row">
+        	                    <div class="col-md-2">
+        	                        <img src="https://image.ibb.co/jw55Ex/def_face.jpg" class="img img-rounded img-fluid"/>
+        	                            <p class="text-secondary text-center">15 Minutes Ago</p>
+                                </div>
+                                
+                                <div class="col-md-10">
+                                    <p>
+                                        <a class="float-left" href="/profile/{{postcur_4.student_id}}">
+                                            <strong>{{postcur_4.name}} {{postcur_4.surname}}</strong>
+                                        </a>
+                                    </p>
+                                    
+                                    <p class="p-3">{{postcur_2.c_content}}</p>
+        	                                <p>
+                                                <form action="/comment_up/{{id_1.post_id}}/{{postcur_2.comment_id}}" method="post">
+                                                    <button style="margin-left: 705px;" class="border-0">
+                                                        <a class="float-right btn text-white btn-danger"> <i class="fa fa-heart"></i> Like</a>
+                                                    </button>
+                                                    <a class="float-right btn btn-outline-primary ml-2">{{postcur_2.c_up_vote}}</a>
+                                                </form>
+        	                                </p>
+        	                    </div>
+                            </div>
+
+                    {% endif %}
+                {% endfor %}
+<!----------------------------------------------------------------------------------------------------------------->
+                        {% for postcur_3 in id_3 %}
+                            {% if postcur_3.comment_id == postcur_2.comment_id %}
+                                {% for postcur_4 in id_4 %}
+                                    {% if postcur_4.student_id == postcur_3.student_id %}
+                                        <div class="card card-inner mb-2">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-2">
+                                                        <img src="https://image.ibb.co/jw55Ex/def_face.jpg" class="img img-rounded img-fluid"/>
+                                                            <p class="text-secondary text-center">15 Minutes Ago</p>
+                                                    </div>
+                                            
+                                                    <div class="col-md-10">
+                                                        <p>
+                                                            <a class="float-left" href="/profile/{{postcur_4.student_id}}">
+                                                                <strong>{{postcur_4.name}} {{postcur_4.surname}}</strong>
+                                                            </a>
+                                                        </p>
+                                
+                                    {% endif %}
+                                {% endfor %}
+
+                                                        {% if postcur_2.comment_id == postcur_3.comment_id %}
+                                                        <p class="p-3">{{postcur_3.r_content}}</p>
+                                                    
+                                                        <p>
+                                                            
+                                                            <form action="/reply_up/{{id_1.post_id}}/{{postcur_2.comment_id}}/{{postcur_3.reply_id}}" method="post">
+                                                                <button style="margin-left: 620px;" class="border-0">
+                                                                    <a class="float-right btn text-white btn-danger"> <i class="fa fa-heart"></i> Like</a>
+                                                                </button>
+                                                                <a class="float-right btn btn-outline-primary ml-2">{{postcur_3.r_up_vote}}</a>
+                                                            </form>
+                                                            
+                                                        </p>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                {% endif %}
+                        {% endfor %}
+<!----------------------------------------------------------------------------------------------------------------->           
+                        <div class="card card-inner mb-2">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <img src="https://image.ibb.co/jw55Ex/def_face.jpg" class="img img-rounded img-fluid"/>
+                                            <p class="text-secondary text-center">15 Minutes Ago</p>
+                                    </div>
+                            
+                                    <div class="col-md-10">
+                                        <p>
+                                            {% for postcur_4 in id_4 %}
+                                            {% if postcur_4.student_id == student_id %}
+                                            <a  href="/profile/{{postcur_4.student_id}}">
+                                                <strong>
+                                                    
+                                                        <p  class="card-text">{{postcur_4.name}} {{postcur_4.surname}}</p>
+                                                
+                                                </strong>
+                                            </a>
+                                            {% endif %}
+                                            {% endfor %}
+                                        </p>
+                                        <!-- -- -->
+                                        <form action="/afterreply/{{postcur_2.comment_id}}" method="post">
+                                            <textarea id="text" name="r_content" rows="5" cols="60"></textarea>
+                                                <button class="float-right btn btn-outline-primary ml-2 mt-5">  <i class="fa fa-reply"></i> Reply</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+<!----------------------------------------------------------------------------------------------------------------->
+            <div class="card mt-3">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <img src="https://image.ibb.co/jw55Ex/def_face.jpg" class="img img-rounded img-fluid"/>
+                                <p class="text-secondary text-center">15 Minutes Ago</p>
+                        </div>
+
+                        <div class="col-md-10">
+                            <p>
+                                {% for postcur_4 in id_4 %}
+                                {% if postcur_4.student_id == student_id %}
+                                <a class="float-left" href="/profile/{{postcur_4.student_id}}">
+                                    <strong>
+                                            <p class="card-text">{{postcur_4.name}} {{postcur_4.surname}}</p>
+
+                                    </strong>
+                                </a>
+                                {% endif %}
+                                {% endfor %}
+                            </p>
+                                <div class="clearfix"></div>
+                                    <form action="/aftercomment/{{id_1['post_id']}}" method="post">
+                                        <textarea id="text" name="c_content" rows="5" cols="100"></textarea>
+                                            <br><br>
+                                                <button class="float-right btn btn-outline-primary ml-2">  <i class="fa fa-reply"></i> Comment</button>
+                                    </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+<!----------------------------------------------------------------------------------------------------------------->

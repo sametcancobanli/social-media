@@ -1,0 +1,81 @@
+﻿{% extends "layout.html" %}
+{% block content %}
+<header>
+    <div class="jumbotron bg-dark text-white">
+        <div class="container">
+            <div class="col-md-6">
+                <h1 class="display-4 font-italic">...</h1>
+                <p class="lead my-3">...</p>
+                <p class="lead mb-0">
+
+                </p>
+            </div>
+        </div>
+
+    </div>
+</header>
+
+<main>
+    <div class="main-bg">
+        <div class="container p-5">
+
+            <div class="card">
+                <h5 class="card-header">New Post</h5>
+                <div class="card-body">
+                    <h5 class="card-title"></h5>
+                            {% for postcur_2 in id_2 %}
+                                {% if postcur_2.student_id == student_id %}
+                                    <p class="card-text">Author : <b><i>{{postcur_2.name}} {{postcur_2.surname}}</i></b></p>
+                                {% endif %}
+                            {% endfor %}
+                        <form action="/afterpost" method="post">
+                            <textarea id="text" name="p_content" rows="5" cols="132"></textarea>
+                            <button style="background: rgb(65, 175, 2); margin-left: 870px; width:100px;" type="submit" class="btn btn-primary mt-3">Post</button>
+                        </form>
+                </div>
+            </div>
+
+            {% for postcur in id %}
+            <div class="card m-5">
+                <h5 class="card-header">Post</h5>
+                <div class="card-body">
+                    <h5 class="card-title"></h5>
+                    {% for postcur_2 in id_2 %}
+                        
+                        {% if postcur_2.student_id == postcur.student_id %}
+                        <a  href="/profile/{{postcur_2.student_id}}">
+                            <strong>
+                                
+                                    <p  class="card-text">{{postcur_2.name}} {{postcur_2.surname}}</p>
+                            
+                            </strong>
+                        </a>
+                        {% endif %}
+                   
+                    {% endfor %}
+                    <blockquote class="blockquote mb-3">
+                        <footer class="blockquote-footer">{{postcur.p_content}} </footer>
+                    </blockquote>
+
+                    <form action="/comment/{{postcur.post_id}}">
+                        <a class="float-right btn text-white btn-danger border-0"> <i class="fa fa-heart"></i> {{postcur.p_up_vote}}</a>
+                            <button style="margin-left: 765px;" type="submit" class="btn btn-primary">Details</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+            <!-- <div class="card m-5">
+                <h5 class="card-header">Featured</h5>
+                <div class="card-body">
+                    <h5 class="card-title">Special title treatment</h5>
+                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                    <blockquote class="blockquote mb-3">
+                        <footer class="blockquote-footer">Someone famous in <cite title="Source Title">Source Title</cite></footer>
+                    </blockquote>
+                    <button type="button" class="btn btn-primary">Primary</button>
+                </div>
+            </div> -->
+        </div>
+    </div>
+</main>
+{% endblock %}
