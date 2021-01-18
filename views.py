@@ -118,8 +118,16 @@ def afterreg_page():
         temp_mail = cursor.fetchall()
 
         if temp_mail:
-            flash("iyi akşamlar", "info")
+            flash("This E-mail address is used, try again.", "danger")
             return redirect(url_for('register_page'))
+        
+        cursor.execute("SELECT * FROM user WHERE student_id = %s" , [student_id])
+        temp_id = cursor.fetchall()
+
+        if temp_id:
+            flash("This Student ID is used, try again.", "danger")
+            return redirect(url_for('register_page'))
+
 
         cursor = mysql.connection.cursor()
 

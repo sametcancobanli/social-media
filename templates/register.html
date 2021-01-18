@@ -61,7 +61,6 @@
         </div>
     </nav>
 
-    <h1>{% if message%}{{message}}{% endif %}</h1>
 
 
     <main class="container ">
@@ -122,10 +121,13 @@
                 </div>
             </form>
         </form>
+        <br>
+        {% include "messages.html" %}
+        <h1>{% if message %}{{message}}{% endif %}</h1>
     </main>
-
     <footer class="py-5 bg-dark text-white text-center mt-5 fixed-bottom">
         Copyright © 2020 All Rights Reserved
     </footer>
+
 </body>
 

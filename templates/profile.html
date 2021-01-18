@@ -50,10 +50,11 @@
                         <div class="bot-border"></div>
 
                         <div class="col-sm-5 col-xs-6 tital " >About:</div><div class="col-sm-7">{{id['about']}}</div>
-
+                        {% if student_id == id['student_id'] %}
                         <form action="/delete_profile/{{id['student_id']}}">
                               <button style="margin-left: 360px;" class="float-right btn text-white btn-danger border-0" type="submit" class="btn btn-primary">Delete Profile</button>
-                      </form>
+                        </form>
+                        {% endif %}
             </div>
           </div>
         </div> 
