@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, escape, session, url_for, flash, current_app
 from flask_mysqldb import MySQL
 from base64 import b64encode
+from passlib.hash import pbkdf2_sha256 as hasher
 
 def home_page():
     mysql = current_app.config["mysql"]
@@ -78,17 +79,15 @@ def afterlog_page():
         form_mail  = request.form['mail_2']
         form_password  = request.form['password_2']
         cursor = mysql.connection.cursor()
-        cursor.execute('SELECT * FROM user WHERE mail = %s AND password = %s', (form_mail, form_password,))
+        cursor.execute('SELECT password FROM user WHERE mail  = %s', (form_mail,))
 
+        password = cursor.fetchone()
 
-        
-        account = cursor.fetchone()
-
-        if account:
+        if hasher.verify(form_password,password['password']):
 
             session['loggedin'] = True
-            session['mail'] = account['mail']
-            session['password'] = account['password']
+            session['mail'] = form_mail
+            session['password'] = password
 
             return redirect(url_for('home_page'))
 
@@ -108,6 +107,8 @@ def afterreg_page():
 
         mail = request.form.get('mail')
         password = request.form.get('password')
+        hashed_password = hasher.hash(password)
+          
         about = request.form.get('about')
 
         cursor = mysql.connection.cursor()
@@ -136,7 +137,7 @@ def afterreg_page():
         mysql.connection.commit()
 
         sorgu = "INSERT INTO user VALUES(%s,%s,%s)"
-        cursor.execute(sorgu,(student_id,mail,password))
+        cursor.execute(sorgu,(student_id,mail,hashed_password))
         mysql.connection.commit()
         cursor.close()
       
