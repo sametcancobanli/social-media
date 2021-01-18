@@ -36,6 +36,7 @@ app.add_url_rule("/post_up/<int:post_key>", view_func=views.post_up_page, method
 app.add_url_rule("/comment_up/<int:post_key>/<int:comment_num>", view_func=views.comment_up_page, methods=['POST'])
 app.add_url_rule("/reply_up/<int:post_key>/<int:comment_num>/<int:reply_num>", view_func=views.reply_up_page, methods=['POST'])
 app.add_url_rule("/profile/<int:user_key>", view_func =views.profile_page)
+app.add_url_rule("/delete_profile/<int:profile_key>", view_func =views.delete_profile, methods=['GET', 'POST'])
 
 if __name__ == "__main__":
     app.run()

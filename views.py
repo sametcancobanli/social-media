@@ -2,7 +2,6 @@ from flask import Flask, render_template, request, redirect, escape, session, ur
 from flask_mysqldb import MySQL
 from base64 import b64encode
 
-
 def home_page():
     mysql = current_app.config["mysql"]
     cur = mysql.connection.cursor()
@@ -21,7 +20,23 @@ def home_page():
         student_id = cur.fetchone()
         student_id = student_id["student_id"]
 
-        return render_template('home.html',student_id = student_id , id = info, id_2 = info_2, session_mail=mail_session)
+        cur.execute("SELECT COUNT(student_id) AS user_num FROM user")
+        user_num = cur.fetchone()
+        user_num = user_num["user_num"]
+
+        cur.execute("SELECT COUNT(student_id) AS post_num FROM post")
+        post_num = cur.fetchone()
+        post_num = post_num["post_num"]
+
+        cur.execute("SELECT COUNT(student_id) AS comment_num FROM comment")
+        comment_num = cur.fetchone()
+        comment_num = comment_num["comment_num"]
+
+        cur.execute("SELECT COUNT(student_id) AS reply_num FROM reply")
+        reply_num = cur.fetchone()
+        reply_num = reply_num["reply_num"]
+
+        return render_template('home.html',student_id = student_id , id = info, id_2 = info_2, session_mail=mail_session, user_num = user_num, post_num = post_num,comment_num = comment_num, reply_num=reply_num)
     
     return render_template("login.html")
 
@@ -64,6 +79,8 @@ def afterlog_page():
         form_password  = request.form['password_2']
         cursor = mysql.connection.cursor()
         cursor.execute('SELECT * FROM user WHERE mail = %s AND password = %s', (form_mail, form_password,))
+
+
         
         account = cursor.fetchone()
 
@@ -97,7 +114,12 @@ def afterreg_page():
         file = request.files['fileToUpload']
         img_1 = file.read()
 
+        cursor.execute("SELECT * FROM user WHERE mail = %s" , [mail])
+        temp_mail = cursor.fetchall()
 
+        if temp_mail:
+            flash("iyi akşamlar", "info")
+            return redirect(url_for('register_page'))
 
         cursor = mysql.connection.cursor()
 
@@ -307,3 +329,20 @@ def profile_page(user_key):
         return render_template(('profile.html'),student_id = student_id, session_mail=mail_session, id = info, id_2 = info_2, image=image, obj=img_blob)
     
     return render_template("login.html")
+
+def delete_profile(profile_key):
+    mysql = current_app.config["mysql"]
+
+    mail_session = escape(session['mail'])
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT student_id FROM user WHERE mail = %s", [mail_session])
+    student_id = cursor.fetchone()
+    student_id = student_id["student_id"]
+
+    cursor.execute("DELETE FROM user_profile WHERE student_id = %s", [profile_key])
+
+    mysql.connection.commit()
+
+    cursor.close()
+      
+    return redirect(url_for('logout_page'))
