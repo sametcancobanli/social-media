@@ -118,6 +118,10 @@ def afterreg_page():
         file = request.files['fileToUpload']
         img_1 = file.read()
 
+        if student_id.strip() == '' or name.strip() == '' or surname.strip() == '' or department.strip() == '' or mail.strip()== '' or password == '':
+            flash("You should fill all areas.", "danger")
+            return redirect(url_for('register_page'))
+
         cursor.execute("SELECT * FROM user WHERE mail = %s" , [mail])
         temp_mail = cursor.fetchall()
 

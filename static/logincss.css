@@ -146,6 +146,39 @@ html {
     color: #cccccc;
   }
   
+
+
+
+  input[type=password] {
+    background-color: #f6f6f6 !important;
+    border: none !important;
+    color: #0d0d0d !important;
+    padding: 15px 32px !important;
+    text-align: center !important;
+    text-decoration: none !important;
+    display: inline-block !important;
+    font-size: 16px !important;
+    margin: 5px !important;
+    width: 85% !important;
+    border: 2px solid #f6f6f6 !important;
+    -webkit-transition: all 0.5s ease-in-out !important;
+    -moz-transition: all 0.5s ease-in-out !important;
+    -ms-transition: all 0.5s ease-in-out !important;
+    -o-transition: all 0.5s ease-in-out !important;
+    transition: all 0.5s ease-in-out !important;
+    -webkit-border-radius: 5px 5px 5px 5px !important;
+    border-radius: 5px 5px 5px 5px !important;
+  }
+  
+  input[type=password]:focus {
+    background-color: #fff !important;
+    border-bottom: 2px solid #5fbae9 !important;
+  }
+  
+  input[type=password]:placeholder {
+    color: #cccccc !important;
+  }
+  
   
   
   /* ANIMATIONS */
@@ -261,4 +294,5 @@ html {
   #icon {
     width:60%;
   }
+  
   
