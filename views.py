@@ -314,7 +314,7 @@ def reply_up_page(post_key, comment_num, reply_num):
     
         cursor.close()
       
-        return render_template(url_for('comment_page', comment_key =post_key))
+        return redirect(url_for('comment_page', comment_key =post_key))
     else:
         return redirect(url_for('fail_page'))
 
