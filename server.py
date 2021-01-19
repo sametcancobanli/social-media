@@ -11,9 +11,9 @@ app.config["mysql"]=mysql
 
     
 app.config['MYSQL_HOST'] = "eu-cdbr-west-03.cleardb.net"
-app.config['MYSQL_USER'] = "b598646a13fc9a"
-app.config['MYSQL_PASSWORD'] = "4fef431e"
-app.config['MYSQL_DB'] = "heroku_c65a6d4af1ca88b"
+app.config['MYSQL_USER'] = "b7e8ff5203e2fb"
+app.config['MYSQL_PASSWORD'] = "c3cf4e2e"
+app.config['MYSQL_DB'] = "heroku_3f45dcbe9716bc3"
 app.config['MYSQL_CURSORCLASS'] = "DictCursor"
 
 app.secret_key = "super secret key"
