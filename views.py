@@ -81,17 +81,18 @@ def afterlog_page():
         form_password  = request.form['password_2']
         cursor = mysql.connection.cursor()
         cursor.execute('SELECT password FROM user WHERE mail  = %s', (form_mail,))
-
         password = cursor.fetchone()
-        password = password['password']
+        
+        if password:
+            password = password['password']
 
-        if hasher.verify(form_password,password):
+            if hasher.verify(form_password,password):
 
-            session['loggedin'] = True
-            session['mail'] = form_mail
-            session['password'] = password
+                session['loggedin'] = True
+                session['mail'] = form_mail
+                session['password'] = password
 
-            return redirect(url_for('home_page'))
+                return redirect(url_for('home_page'))
 
     return redirect(url_for('login_page'))
 
@@ -134,8 +135,8 @@ def afterreg_page():
 
         cursor = mysql.connection.cursor()
 
-        sorgu = "INSERT INTO user_profile VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s)"
-        cursor.execute(sorgu,(student_id,name,surname,department, clas,about,0,0,img_1))
+        sorgu = "INSERT INTO user_profile VALUES(%s,%s,%s,%s,%s,%s,%s)"
+        cursor.execute(sorgu,(student_id,name,surname,department, clas,about,img_1))
         mysql.connection.commit()
 
         sorgu = "INSERT INTO user VALUES(%s,%s,%s)"
@@ -170,11 +171,9 @@ def post_page():
         student_id = cursor.fetchone()
         student_id = student_id["student_id"]
 
-        sorgu = "INSERT INTO post VALUES(%s,%s,%s,%s,%s)"
-        cursor.execute(sorgu,(student_id,None,content,0,0))
+        sorgu = "INSERT INTO post VALUES(%s,%s,%s,%s)"
+        cursor.execute(sorgu,(student_id,None,content,0))
         mysql.connection.commit()
-
-        
 
         cursor.close()
       
@@ -230,8 +229,8 @@ def afterreply_page(comment_key_2):
         student_id = cursor.fetchone()
         student_id = student_id["student_id"]
 
-        sorgu = "INSERT INTO reply VALUES(%s,%s,%s,%s,%s,%s)"
-        cursor.execute(sorgu,(student_id,comment_key_2,None,content,0,0))
+        sorgu = "INSERT INTO reply VALUES(%s,%s,%s,%s,%s)"
+        cursor.execute(sorgu,(student_id,comment_key_2,None,content,0))
         mysql.connection.commit()
 
         cursor.execute("SELECT post_id FROM comment WHERE comment_id = %s", [comment_key_2])
@@ -254,8 +253,8 @@ def aftercomment_page(post_key):
         student_id = cursor.fetchone()
         student_id = student_id["student_id"]
 
-        sorgu = "INSERT INTO comment VALUES(%s,%s,%s,%s,%s,%s)"
-        cursor.execute(sorgu,(student_id,post_key,None,content,0,0))
+        sorgu = "INSERT INTO comment VALUES(%s,%s,%s,%s,%s)"
+        cursor.execute(sorgu,(student_id,post_key,None,content,0))
         mysql.connection.commit()
 
         cursor.close()
