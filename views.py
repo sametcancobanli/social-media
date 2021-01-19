@@ -75,6 +75,7 @@ def afterlog_page():
     cursor = mysql.connection.cursor()
     if 'mail' in session:
         return redirect(url_for('home_page'))
+
     if request.method == 'POST':
         form_mail  = request.form['mail_2']
         form_password  = request.form['password_2']
@@ -82,8 +83,9 @@ def afterlog_page():
         cursor.execute('SELECT password FROM user WHERE mail  = %s', (form_mail,))
 
         password = cursor.fetchone()
+        password = password['password']
 
-        if hasher.verify(form_password,password['password']):
+        if hasher.verify(form_password,password):
 
             session['loggedin'] = True
             session['mail'] = form_mail
