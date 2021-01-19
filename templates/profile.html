@@ -28,29 +28,29 @@
                         
                         <div class="col-sm-7">
                       
-                          <h4 style="color:#00b1b1;">{{id['name']}} {{id['surname']}} </h4></span>          
+                          <h4 style="color:#00b1b1;">{{info['name']}} {{info['surname']}} </h4></span>          
                         </div>
                       
                         <div class="clearfix"></div>
                           <hr style="margin:5px 0 5px 0;">
 
-                        <div class="col-sm-5 col-xs-6 tital " >Student Number:</div><div class="col-sm-7">{{id['student_id']}}</div>
+                        <div class="col-sm-5 col-xs-6 tital " >Student Number:</div><div class="col-sm-7">{{info['student_id']}}</div>
 
                           <div class="clearfix"></div>
                         <div class="bot-border"></div>
 
-                        <div class="col-sm-5 col-xs-6 tital " >Department:</div><div class="col-sm-7">{{id['department']}}</div>
+                        <div class="col-sm-5 col-xs-6 tital " >Department:</div><div class="col-sm-7">{{info['department']}}</div>
 
                           <div class="clearfix"></div>
                         <div class="bot-border"></div>
 
-                        <div class="col-sm-5 col-xs-6 tital " >Class:</div><div class="col-sm-7">{{id['class']}}</div>
+                        <div class="col-sm-5 col-xs-6 tital " >Class:</div><div class="col-sm-7">{{info['class']}}</div>
 
                         <div class="clearfix"></div>
                         <div class="bot-border"></div>
 
-                        <div class="col-sm-5 col-xs-6 tital " >About:</div><div class="col-sm-7">{{id['about']}}</div>
-                        {% if student_id == id['student_id'] %}
+                        <div class="col-sm-5 col-xs-6 tital " >About:</div><div class="col-sm-7">{{info['about']}}</div>
+                        {% if student_id == info['student_id'] %}
                         <form action="/delete_profile/{{id['student_id']}}">
                               <button style="margin-left: 360px;" class="float-right btn text-white btn-danger border-0" type="submit" class="btn btn-primary">Delete Profile</button>
                         </form>
@@ -62,24 +62,20 @@
     </div>  
 <!----------------------------------------------------------------------------------------------------------->
           <div class="col-md-7 ">
-            {% for postcur_2 in id_2 %}
+            {% for post in info %}
             <div class="card m-5">
                 <h5 class="card-header">Post</h5>
                 <div class="card-body">
                     <h5 class="card-title"></h5>
-                    
-                        
-                        {% if postcur_2.student_id == id['student_id'] %}
-                            <p class="card-text"><b>{{id['name']}} {{id['surname']}}</b></p>
-                        {% endif %}
+                  
+                            <p class="card-text"><b>{{post.name}} {{post.surname}}</b></p>
                    
-                    
                     <blockquote class="blockquote mb-3">
-                        <footer class="blockquote-footer">{{postcur_2.p_content}} </footer>
+                        <footer class="blockquote-footer">{{post.p_content}} </footer>
                     </blockquote>
 
                     <form action="/comment/{{postcur_2.post_id}}">
-                        <a class="float-right btn text-white btn-danger border-0"> <i class="fa fa-heart"></i> {{postcur_2.p_up_vote}}</a>
+                        <a class="float-right btn text-white btn-danger border-0"> <i class="fa fa-heart"></i> {{post.p_up_vote}}</a>
                             <button style="margin-left: 360px;" type="submit" class="btn btn-primary">Details</button>
                     </form>
                 </div>
