@@ -322,17 +322,20 @@ def profile_page(user_key):
     if 'mail' in session:
         mail_session = escape(session['mail']).capitalize()
 
-        cur.execute("SELECT u.student_id, u.name, u.surname, u.department, u.class, u.class, u.image_id, p.post_id p.p_content, p.p_up_vote FROM user_profile u INNER JOIN post p ON u.student_id = p.student_id AND u.student_id = %s ORDER BY post_id DESC", [user_key])
+        cur.execute("SELECT u.student_id, p.post_id, p.p_content, p.p_up_vote FROM user_profile u INNER JOIN post p ON u.student_id = p.student_id AND u.student_id = %s ORDER BY post_id DESC", [user_key])
         join_info = cur.fetchall()
 
-        img_blob = join_info['image_id']
-        image = b64encode(img_blob).decode("utf-8")
+        cur.execute("SELECT * FROM user_profile WHERE student_id=%s", [user_key])
+        join_info_2 = cur.fetchone()
 
         cur.execute("SELECT student_id FROM user WHERE mail = %s", [mail_session])
         student_id = cur.fetchone()
         student_id = student_id["student_id"]
 
-        return render_template(('profile.html'),student_id = student_id, session_mail=mail_session, info = join_info, image=image, obj=img_blob)
+        img_blob = join_info_2['image_id']
+        image = b64encode(img_blob).decode("utf-8")
+
+        return render_template(('profile.html'),student_id = student_id, session_mail=mail_session, info = join_info, info_2 = join_info_2, image=image, obj=img_blob)
     
     return render_template("login.html")
 
